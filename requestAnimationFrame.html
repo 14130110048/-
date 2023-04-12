@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>requestAnimationFrame</title>
+
+		<!-- 样式 -->
+		<style type="text/css">
+			/* 设置容器样式 */
+			
+			#content {
+				height: 400px;
+				padding: 10px;
+				font-size: 28px;
+				border-radius: 20px;
+				background-color: antiquewhite;
+			}
+			/* 产生光标闪烁的效果 */
+			
+			#content::after {
+				content: "|";
+				color: darkgray;
+				animation: blink 1s infinite;
+			}
+			
+			@keyframes blink {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="content"></div>
+		<script>
+			(function() {
+				const container = document.getElementById('content')
+				const data = '与 setTimeout 相比，requestAnimationFrame 最大的优势是 由系统来决定回调函数的执行时机。具体一点讲就是，系统每次绘制之前会主动调用 requestAnimationFrame 中的回调函数，如果系统绘制率是 60Hz，那么回调函数就每16.7ms 被执行一次，如果绘制频率是75Hz，那么这个间隔时间就变成了 1000/75=13.3ms。换句话说就是，requestAnimationFrame 的执行步伐跟着系统的绘制频率走。它能保证回调函数在屏幕每一次的绘制间隔中只被执行一次，这样就不会引起丢帧现象，也不会导致动画出现卡顿的问题。'.split('')
+				let index = 0
+
+				function writing() {
+					if(index < data.length) {
+						container.innerHTML += data[index++]
+						requestAnimationFrame(writing)
+					}
+				}
+				writing()
+			})();
+		</script>
+	</body>
+
+</html>
